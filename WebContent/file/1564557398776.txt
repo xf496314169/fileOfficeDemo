@@ -1,0 +1,6 @@
+https://www.mvnjar.com/  maven仓库依赖查询 
+
+
+
+
+https://blog.csdn.net/Sky_rabbit94/article/details/81063994  https://blog.csdn.net/cc_fys/article/details/78452168 设置Tomcat获取项目根目录

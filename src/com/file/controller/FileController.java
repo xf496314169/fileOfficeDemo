@@ -95,14 +95,15 @@ public class FileController {
 			/* String fileNameurl= URLEncoder.encode(fileName); */
          return "redirect:/file/"+wordName+".html";
       }else if(fileType.equals("2")){
+    	  String fileNamePostfix=fileName.substring(fileName.lastIndexOf(".") + 1);
            PrintWriter out= response.getWriter();
-           String htmlStr= PoiExcelToHtmlUtil.excelToHtml(path,fileName);
+           String htmlStr= PoiExcelToHtmlUtil.excelToHtml(path,id+"."+fileNamePostfix);
            out.print(htmlStr);
       }else if(fileType.equals("3")){
            response.setCharacterEncoding("utf-8");
            response.setContentType("text/html; charset=utf-8");
            PrintWriter out= response.getWriter();
-         File file=new File(path+fileName);
+          File file=new File(path+id+".txt");
          StringBuilder builder=new StringBuilder();
            InputStreamReader read = new InputStreamReader(
                    new FileInputStream(file), "utf-8");
@@ -113,7 +114,7 @@ public class FileController {
            }
            out.print(builder.toString());
       }else if(fileType.equals("4")){
-           FileInputStream in=new FileInputStream(path+fileName);
+           FileInputStream in=new FileInputStream(path+id+".pdf");
            OutputStream outputStream=response.getOutputStream();
            byte[] b=new byte[512];
            while ((in.read(b))!=-1){
