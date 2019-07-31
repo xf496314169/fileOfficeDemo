@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="statics/element/index.css">
+</head>
+<body>
+<div  id="app">
+    <el-upload
+            class="upload-demo"
+            ref="upload"
+            action="/uploadFile"
+            name="file"
+            :on-success="uploadSuccess"
+            :auto-upload="false">
+
+        <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+        <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
+    </el-upload>
+        <el-table  :data="tableData"
+                   style="width:100%"
+        >
+            <el-table-column
+                    prop="fileName"
+                    label="文件"
+                    width="180">
+            </el-table-column>
+            <el-table-column
+                    prop="fileTypeName"
+                    label="文件类型"
+                    width="180">
+            </el-table-column>
+            <el-table-column
+                    prop="filePath"
+                    label="文件路径">
+            </el-table-column>
+            <el-table-column
+                    prop="fileUploadTime"
+                    label="上传时间">
+            </el-table-column>
+            <el-table-column label="操作" >
+                <template slot-scope="scope">
+                    <el-button  type="primary"  @click="showFile(scope.row.fileName,scope.row.fileType,scope.row.id)">预览</el-button>
+                    <el-button  type="primary"  @click="downloadFile(scope.row.fileName,scope.row.id)">下载</el-button>
+                    <el-button  type="danger"  @click="fileDelete(scope.row.id,scope.row.fileName,scope.row.fileTypeName)">删除</el-button>
+                </template>
+            </el-table-column>
+        </el-table>
+
+</div>
+</body>
+<script src="statics/vue/vue-2.5.16.js"></script>
+<script src="statics/jquery/jquery-1.7.2.min.js"></script>
+<script src="statics/element/index.js"></script>
+<script>
+    var vue=new Vue({
+        el: '#app',
+        data: function () {
+            return {
+                tableData:[]
+            }
+        },
+        methods:{
+            submitUpload:function() {
+                this.$refs.upload.submit();
+            },
+            page:function () {
+                $.ajax({
+                    type:"post",
+                    url: "/tableQuery",
+                    success: function(result){
+                        vue.tableData=result
+                    }
+                });
+            },
+            showFile:function (fileName,fileType,id) {
+                window.open("/showFile?fileName="+fileName+"&fileType="+fileType+"&id="+id,"_blank","top=100,left=100,height=600,width=1000,status=yes,toolbar=1,menubar=no,location=no,scrollbas=yes");
+
+            },
+            uploadSuccess:function(response, file, fileList){
+                this.page();
+            },
+            fileDelete:function (id,fileName,fileTypeName) {
+                $.ajax({
+                    type:"post",
+                    url: "/deleteFile",
+                    data:{id:id,fileName:fileName,fileTypeName:fileTypeName},
+                    success: function(result){
+                        alert(result);
+                        vue.page();
+                    }
+                });
+            },
+            downloadFile:function (fileName,id) {
+                window.location.href="/downloadFile?fileName="+fileName+"&id="+id;
+            }
+
+        },
+        created :function(){
+            this.page();
+        }
+    })
+</script>
+</html>
