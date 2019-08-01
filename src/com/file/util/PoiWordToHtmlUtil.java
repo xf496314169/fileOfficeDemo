@@ -25,7 +25,7 @@ import org.apache.poi.hwpf.HWPFDocument;
 import org.apache.poi.hwpf.converter.PicturesManager;  
 import org.apache.poi.hwpf.converter.WordToHtmlConverter;  
 import org.apache.poi.hwpf.usermodel.PictureType;  
-import org.apache.poi.xwpf.converter.core.BasicURIResolver;  
+
 import org.apache.poi.xwpf.converter.core.FileImageExtractor;
 import org.apache.poi.xwpf.converter.core.IURIResolver;
 import org.apache.poi.xwpf.converter.xhtml.XHTMLConverter;  
@@ -48,7 +48,7 @@ public class PoiWordToHtmlUtil {
       
     public static String wordToHtml(String realPath, final String saveName) throws TransformerException, IOException, ParserConfigurationException {              
         String ext = GetFileExt(saveName);  
-        String docFile=realPath + "\\" + saveName;  
+        String docFile=realPath  + saveName;  
         String htmlFile=realPath + "\\" + saveName + ".html";  
         final String picturesPath=docFile+".files";  
         String imgSrc=saveName+".files";

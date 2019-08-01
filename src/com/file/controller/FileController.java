@@ -113,8 +113,9 @@ public class FileController {
                builder.append(lineTxt);
            }
            out.print(builder.toString());
-      }else if(fileType.equals("4")){
-           FileInputStream in=new FileInputStream(path+id+".pdf");
+      }else if(fileType.equals("4")||fileType.equals("undefined")){
+    	  String fileNamePostfix=fileName.substring(fileName.lastIndexOf(".") + 1);
+           FileInputStream in=new FileInputStream(path+id+"."+fileNamePostfix);
            OutputStream outputStream=response.getOutputStream();
            byte[] b=new byte[512];
            while ((in.read(b))!=-1){
